@@ -3,6 +3,7 @@ package scan
 import (
 	"fmt"
 	"io"
+	"os"
 
 	"github.com/puerco/scan2spdx/pkg/spdx"
 )
@@ -31,6 +32,20 @@ type ParserImplementation interface {
 	ReadTrivy(io.ReadSeeker, *spdx.Document) error
 	ReadSnyk(io.ReadSeeker, *spdx.Document) error
 	ReadGrype(io.ReadSeeker, *spdx.Document) error
+}
+
+func (p *Parser) ParseFile(path string) (*spdx.Document, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, fmt.Errorf("opening file: %w", err)
+	}
+
+	doc, err := p.Read(f)
+	if err != nil {
+		return nil, fmt.Errorf("reading stream: %w", err)
+	}
+
+	return doc, nil
 }
 
 func (p *Parser) Read(scanData io.ReadSeeker) (doc *spdx.Document, err error) {

@@ -37,8 +37,12 @@ type Package struct {
 
 type Relationship struct {
 	Element
-	RelationshipType string    `json:"relationshipType"`
-	From             string    `json:"from"`
-	To               []string  `json:"to"`
-	StartTime        time.Time `json:"startTime"`
+	RelationshipType string     `json:"relationshipType"`
+	From             string     `json:"from"`
+	To               []string   `json:"to"`
+	StartTime        *time.Time `json:"startTime,omitempty"`
+}
+
+func (r Relationship) AddTo(identifier string) {
+	r.To = append(r.To, identifier)
 }

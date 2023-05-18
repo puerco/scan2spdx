@@ -25,13 +25,26 @@ type Vulnerability struct {
 	ExternalReferences  *[]ExternalReference  `json:"externalReferences"`
 }
 
+type VulnAssessmentRelationship struct {
+	AssessedElement    *[]string            `json:"assessedElement,omitempty"`
+	SuppliedBy         *[]string            `json:"suppliedBy,omitempty"`
+	ExternalReferences *[]ExternalReference `json:"externalReferences,omitempty"`
+	PublishedTime      *time.Time           `json:"publishedTime,omitempty"`
+	ModifiedTime       *time.Time           `json:"modifiedTime,omitempty"`
+}
+
 type CvssV3VulnAssessmentRelationship struct {
 	Relationship
-	Severity           string               `json:"severity"`
-	Score              float32              `json:"score"`
-	Vector             string               `json:"vector"`
-	AssessedElement    []string             `json:"assessedElement"`
-	SuppliedBy         []string             `json:"suppliedBy"`
-	ExternalReferences *[]ExternalReference `json:"externalReferences"`
-	PublisedTime       *time.Time           `json:"publishedTime,omitempty"`
+	VulnAssessmentRelationship
+	Severity string  `json:"severity"`
+	Score    float32 `json:"score"`
+	Vector   string  `json:"vector"`
+}
+
+type CvssV2VulnAssessmentRelationship struct {
+	Relationship
+	VulnAssessmentRelationship
+	Severity string  `json:"severity"`
+	Score    float32 `json:"score"`
+	Vector   string  `json:"vector"`
 }
